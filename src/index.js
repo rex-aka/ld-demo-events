@@ -11,7 +11,8 @@ let id = getUserId();
 
 (async () => {
   const LDProvider = await asyncWithLDProvider({
-    clientSideID: '634742fc7b0a3111a7a3c204',
+    // clientSideID: '634742fc7b0a3111a7a3c204', // the original
+    clientSideID: '6352a0ec82cd0611d955d8e8', // SRECon EMEA station 1
     user: {
       key: id,
       custom: {

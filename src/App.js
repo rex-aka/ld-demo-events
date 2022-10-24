@@ -40,21 +40,11 @@ function App() {
       ) : null}
       {upperimage ? (
         <div className="body grid row-start-2 col-span-3 xl:col-start-2  xl:row-start-1 place-items-center">
-          {logoversion ? (
             <img
-              src={toggle}
+              src={logoversion ? toggle : ldlogo}
               className="mx-auto h-56 lg:h-60 2xl:h-80"
               alt="logo"
             />
-          ) : (
-            <div className="">
-              <img
-                src={ldlogo}
-                className="App-pulse mx-auto h-56 lg:h-60 2xl:h-80"
-                alt="logo"
-              />
-            </div>
-          )}
         </div>
       ) : (
         <div />
