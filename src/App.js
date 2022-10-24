@@ -9,7 +9,7 @@ import Intro from "./components/intro";
 import Release from "./components/release";
 
 function App() {
-  const { qrcode, upperimage, logoversion, cardshow, login, prodHeader, release } = useFlags();
+  const { qrcode, upperimage, logoversion, cardshow, login, prodHeader, release, headertext } = useFlags();
   
   return (
     <div className="App h-screen bg-ldls grid xl:grid-cols-4 grid-cols-3 grid-rows-4 xl:grid-rows-3 bg-cover bg-no-repeat">
@@ -22,7 +22,7 @@ function App() {
         <header className="App-header grid col-start-1 col-span-4 row-start-2">
         <div className="body bg-ldgray px-8 py-4 mb-5 w-full shadow-2xl">
           <p className="text-m xl:text-8xl font-bold">LaunchDarkly</p>
-          <p className="text-m xl:text-4xl">Welcomes you to <span className="text-ldyellow">Forrester Technology & Innovation</span>!</p>        
+          <p className="text-m xl:text-4xl">Welcomes you to <span className="text-ldyellow">{headertext ? headertext : "No event name provided!"}</span>!</p>        
         </div>
         <Intro release={release} />
       </header>
