@@ -6,17 +6,11 @@ terraform {
   }
 }
 
-variable "project" {
-  type = string
-}
-
-variable "ld_access_token" {
-  type = string
-}
-
 provider "launchdarkly" {
   access_token = var.ld_access_token
 }
+
+# === RESOURCES === #
 
 resource "launchdarkly_project" "demo_project" {
   key  = var.project
@@ -46,134 +40,22 @@ resource "launchdarkly_project" "demo_project" {
   }
 }
 
-resource "launchdarkly_feature_flag" "qrcode" {
+resource "launchdarkly_feature_flag" "header_text" {
   project_key = launchdarkly_project.demo_project.key
-  key         = "qrcode"
-  name        = "0 - QR Code"
-  description = "This flag enables the view of the QR Code on our application canvas for mobile device viewing"
+  key         = "headertext"
+  name        = "0 - Header Text"
+  description = "Enables the header text to welcome audience"
 
-  variation_type = "boolean"
+  variation_type = "string"
   variations {
-    value       = "true"
-    name        = "QR Code On"
-    description = "Show the QR Code"
-  }
-  variations {
-    value       = "false"
-    name        = "QR Code Off"
-    description = "Disable the QR Code for mobile device viewing "
-  }
-  
-  defaults {
-    on_variation = 0
-    off_variation = 1
-  }
-
-  tags = [
-    "terraform-managed"
-  ]
-}
-
-resource "launchdarkly_feature_flag" "logoversion" {
-  project_key = launchdarkly_project.demo_project.key
-  key         = "logoversion"
-  name        = "4 - Logo Version"
-  description = "This flag controls which logo is visible within the application"
-
-  variation_type = "boolean"
-  variations {
-    value       = "true"
-    name        = "Show Toggle Logo"
-    description = "Toggle makes their grand appearance!"
+    value       = var.header_text
+    name        = "Show the event header text"
+    description = "Show the event header text"
   }
   variations {
-    value       = "false"
-    name        = "Default LaunchDarkly Logo"
-    description = "Shows the default LaunchDarkly Osmo logo"
-  }
-  
-  defaults {
-    on_variation = 0
-    off_variation = 1
-  }
-
-  tags = [
-    "terraform-managed",   
-  ]
-}
-
-resource "launchdarkly_feature_flag" "cardshow" {
-  project_key = launchdarkly_project.demo_project.key
-  key         = "cardshow"
-  name        = "5 - Release Cards"
-  description = "This flag controls the visibility of the release cards on the bottom of the UI "
-
-  variation_type = "boolean"
-  variations {
-    value       = "true"
-    name        = "Show Release Cards"
-    description = "Show the app delivery release cards"
-  }
-  variations {
-    value       = "false"
-    name        = "Disable Card Views"
-    description = "Do not show the release cards "
-  }
-  
-  defaults {
-    on_variation = 0
-    off_variation = 1
-  }
-
-  tags = [
-    "terraform-managed",   
-  ]
-}
-
-resource "launchdarkly_feature_flag" "upperimage" {
-  project_key = launchdarkly_project.demo_project.key
-  key         = "upperimage"
-  name        = "3 - Upper Image"
-  description = "Show the upper immage on page"
-
-  variation_type = "boolean"
-  variations {
-    value       = "true"
-    name        = "Show Image"
-    description = "Display the image"
-  }
-  variations {
-    value       = "false"
-    name        = "Disable Image"
-    description = "Disable the image from being viewed "
-  }
-  
-  defaults {
-    on_variation = 0
-    off_variation = 1
-  }
-
-  tags = [
-    "terraform-managed",   
-  ]
-}
-
-resource "launchdarkly_feature_flag" "login" {
-  project_key = launchdarkly_project.demo_project.key
-  key         = "login"
-  name        = "2 - Login UI"
-  description = "Show the login box for user targeting"
-
-  variation_type = "boolean"
-  variations {
-    value       = "true"
-    name        = "Login enabled"
-    description = "Login box presented"
-  }
-  variations {
-    value       = "false"
-    name        = "Login Disabled"
-    description = "Not able to login "
+    value       = "${var.name}'s Demo"
+    name        = "Show generic demo header text"
+    description = "Displays header text for generic Demo"
   }
   
   defaults {
@@ -214,22 +96,50 @@ resource "launchdarkly_feature_flag" "prod_header" {
   ]
 }
 
-resource "launchdarkly_feature_flag" "header_text" {
+resource "launchdarkly_feature_flag" "qrcode" {
   project_key = launchdarkly_project.demo_project.key
-  key         = "headertext"
-  name        = "6 - Header Text"
-  description = "Enables the header text to welcome audience"
+  key         = "qrcode"
+  name        = "2 - QR Code"
+  description = "This flag enables the view of the QR Code on our application canvas for mobile device viewing"
 
-  variation_type = "string"
+  variation_type = "boolean"
   variations {
-    value       = "Gartner IT Symposium/Xpo 2022"
-    name        = "Show Gartner Header Text"
-    description = "Show the updated Gartner header text"
+    value       = "true"
+    name        = "QR Code On"
+    description = "Show the QR Code"
   }
   variations {
-    value       = "Kay's Demo"
-    name        = "Show Generic Demo Header Text"
-    description = "Displays header text for Kay's Demo"
+    value       = "false"
+    name        = "QR Code Off"
+    description = "Disable the QR Code for mobile device viewing "
+  }
+  
+  defaults {
+    on_variation = 0
+    off_variation = 1
+  }
+
+  tags = [
+    "terraform-managed"
+  ]
+}
+
+resource "launchdarkly_feature_flag" "login" {
+  project_key = launchdarkly_project.demo_project.key
+  key         = "login"
+  name        = "3 - Login UI"
+  description = "Show the login box for user targeting"
+
+  variation_type = "boolean"
+  variations {
+    value       = "true"
+    name        = "Login enabled"
+    description = "Login box presented"
+  }
+  variations {
+    value       = "false"
+    name        = "Login Disabled"
+    description = "Not able to login "
   }
   
   defaults {
@@ -241,6 +151,92 @@ resource "launchdarkly_feature_flag" "header_text" {
     "terraform-managed",   
   ]
 }
+
+resource "launchdarkly_feature_flag" "showlogo" {
+  project_key = launchdarkly_project.demo_project.key
+  key         = "showlogo"
+  name        = "4 - Show Logo"
+  description = "Show the logo on page"
+
+  variation_type = "boolean"
+  variations {
+    value       = "true"
+    name        = "Show logo"
+    description = "Display the logo"
+  }
+  variations {
+    value       = "false"
+    name        = "Disable logo"
+    description = "Disable the logo from being viewed "
+  }
+  
+  defaults {
+    on_variation = 0
+    off_variation = 1
+  }
+
+  tags = [
+    "terraform-managed",   
+  ]
+}
+
+resource "launchdarkly_feature_flag" "logoversion" {
+  project_key = launchdarkly_project.demo_project.key
+  key         = "logoversion"
+  name        = "5 - Logo Version"
+  description = "This flag controls which logo is visible within the application"
+
+  variation_type = "boolean"
+  variations {
+    value       = "true"
+    name        = "Show Toggle Logo"
+    description = "Toggle makes their grand appearance!"
+  }
+  variations {
+    value       = "false"
+    name        = "Default LaunchDarkly Logo"
+    description = "Shows the default LaunchDarkly Osmo logo"
+  }
+  
+  defaults {
+    on_variation = 0
+    off_variation = 1
+  }
+
+  tags = [
+    "terraform-managed",   
+  ]
+}
+
+resource "launchdarkly_feature_flag" "cardshow" {
+  project_key = launchdarkly_project.demo_project.key
+  key         = "cardshow"
+  name        = "6 - Release Cards"
+  description = "This flag controls the visibility of the release cards on the bottom of the UI "
+
+  variation_type = "boolean"
+  variations {
+    value       = "true"
+    name        = "Show Release Cards"
+    description = "Show the app delivery release cards"
+  }
+  variations {
+    value       = "false"
+    name        = "Disable Card Views"
+    description = "Do not show the release cards "
+  }
+  
+  defaults {
+    on_variation = 0
+    off_variation = 1
+  }
+
+  tags = [
+    "terraform-managed",   
+  ]
+}
+
+# === OUTPUTS === #
 
 output "LaunchDarkly_API_Key" {
   value = launchdarkly_project.demo_project.environments[0].api_key
