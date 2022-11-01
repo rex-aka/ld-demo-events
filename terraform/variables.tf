@@ -1,3 +1,4 @@
+# LaunchDarkly Variables
 variable "name" {
   type = string
   description = "Name of the person who will run the demo."
@@ -18,3 +19,8 @@ variable "header_text" {
   description = "The event name or group to welcome."
   default = "Gartner IT Symposium/Xpo 2022"
 }
+
+# AWS Variables
+variable "region" {}
+variable "domain_name" {}
+variable "domain_zoneid" {}
