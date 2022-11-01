@@ -6,28 +6,40 @@ terraform {
   }
 }
 
-variable "LAUNCHDARKLY_ACCESS_TOKEN" {
+variable "project" {
+  type = string
+}
+
+variable "ld_access_token" {
   type = string
 }
 
 provider "launchdarkly" {
-  access_token = var.LAUNCHDARKLY_ACCESS_TOKEN
+  access_token = var.ld_access_token
 }
 
-resource "launchdarkly_project" "forrestereu" {
-  key  = "ld-demo-forrestereu"
-  name = "ld-demo-forrestereu"
+resource "launchdarkly_project" "demo_project" {
+  key  = var.project
+  name = var.project
 
   tags = [
     "terraform",
   ]
 
   environments {
-        key   = "forrestereu1"
-        name  = "forrestereu-1"
+        key   = "${var.project}-1"
+        name  = "${var.project}-1"
         color = "7B42BC"
-        tags  = ["terraform"]
+        tags  = [ "terraform" ]
   }
+
+  environments {
+      key   = "${var.project}-2"
+      name  = "${var.project}-2"
+      color = "1AD2EA"
+      tags  = [ "terraform" ]
+  }
+
   default_client_side_availability {
     using_environment_id = true
     using_mobile_key     = false
@@ -35,7 +47,7 @@ resource "launchdarkly_project" "forrestereu" {
 }
 
 resource "launchdarkly_feature_flag" "qrcode" {
-  project_key = launchdarkly_project.forrestereu.key
+  project_key = launchdarkly_project.demo_project.key
   key         = "qrcode"
   name        = "0 - QR Code"
   description = "This flag enables the view of the QR Code on our application canvas for mobile device viewing"
@@ -63,7 +75,7 @@ resource "launchdarkly_feature_flag" "qrcode" {
 }
 
 resource "launchdarkly_feature_flag" "logoversion" {
-  project_key = launchdarkly_project.forrestereu.key
+  project_key = launchdarkly_project.demo_project.key
   key         = "logoversion"
   name        = "4 - Logo Version"
   description = "This flag controls which logo is visible within the application"
@@ -91,7 +103,7 @@ resource "launchdarkly_feature_flag" "logoversion" {
 }
 
 resource "launchdarkly_feature_flag" "cardshow" {
-  project_key = launchdarkly_project.forrestereu.key
+  project_key = launchdarkly_project.demo_project.key
   key         = "cardshow"
   name        = "5 - Release Cards"
   description = "This flag controls the visibility of the release cards on the bottom of the UI "
@@ -119,7 +131,7 @@ resource "launchdarkly_feature_flag" "cardshow" {
 }
 
 resource "launchdarkly_feature_flag" "upperimage" {
-  project_key = launchdarkly_project.forrestereu.key
+  project_key = launchdarkly_project.demo_project.key
   key         = "upperimage"
   name        = "3 - Upper Image"
   description = "Show the upper immage on page"
@@ -147,7 +159,7 @@ resource "launchdarkly_feature_flag" "upperimage" {
 }
 
 resource "launchdarkly_feature_flag" "login" {
-  project_key = launchdarkly_project.forrestereu.key
+  project_key = launchdarkly_project.demo_project.key
   key         = "login"
   name        = "2 - Login UI"
   description = "Show the login box for user targeting"
@@ -174,9 +186,9 @@ resource "launchdarkly_feature_flag" "login" {
   ]
 }
 
-resource "launchdarkly_feature_flag" "prodHeader" {
-  project_key = launchdarkly_project.forrestereu.key
-  key         = "prodHeader"
+resource "launchdarkly_feature_flag" "prod_header" {
+  project_key = launchdarkly_project.demo_project.key
+  key         = "prodheader"
   name        = "1 - Production Header"
   description = "Enables the production header view in the UI"
 
@@ -202,12 +214,40 @@ resource "launchdarkly_feature_flag" "prodHeader" {
   ]
 }
 
+resource "launchdarkly_feature_flag" "header_text" {
+  project_key = launchdarkly_project.demo_project.key
+  key         = "headertext"
+  name        = "6 - Header Text"
+  description = "Enables the header text to welcome audience"
+
+  variation_type = "string"
+  variations {
+    value       = "Gartner IT Symposium/Xpo 2022"
+    name        = "Show Gartner Header Text"
+    description = "Show the updated Gartner header text"
+  }
+  variations {
+    value       = "Kay's Demo"
+    name        = "Show Generic Demo Header Text"
+    description = "Displays header text for Kay's Demo"
+  }
+  
+  defaults {
+    on_variation = 0
+    off_variation = 1
+  }
+
+  tags = [
+    "terraform-managed",   
+  ]
+}
+
 output "LaunchDarkly_API_Key" {
-  value = launchdarkly_project.forrestereu.environments[0].api_key
+  value = launchdarkly_project.demo_project.environments[0].api_key
   sensitive = true
 }
 
 output "LaunchDarkly_Client_Side_Key" {
-  value = launchdarkly_project.forrestereu.environments[0].client_side_id
+  value = launchdarkly_project.demo_project.environments[0].client_side_id
   sensitive = true
 }
