@@ -11,9 +11,7 @@ let id = getUserId();
 
 (async () => {
   const LDProvider = await asyncWithLDProvider({
-    // clientSideID: '634742fc7b0a3111a7a3c204', // the original
-    // clientSideID: '6352a0ec82cd0611d955d8e8', // SRECon EMEA station 1
-    clientSideID: '6356615cecf523116c1554ee',  // Michal Demo Project > Conf Booth Demo
+    clientSideID: process.env.REACT_APP_LD_CLIENT_ID,
     user: {
       key: id,
       custom: {
