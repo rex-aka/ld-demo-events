@@ -1,5 +1,6 @@
 variable "bucket" {
   type = string
+  description = "AWS S3 bucket name for station"
 }
 
 variable "domain_zoneid" {

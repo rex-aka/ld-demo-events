@@ -21,6 +21,18 @@ variable "header_text" {
 }
 
 # AWS Variables
-variable "region" {}
-variable "domain_name" {}
-variable "domain_zoneid" {}
+variable "region" {
+  type = string
+  description = "AWS Region of choice for deployments."
+  default = "eu-west-1"
+}
+
+variable "domain_name" {
+  type = string
+  description = "Demo domain name to use."
+}
+
+variable "domain_zoneid" {
+  type = string
+  description = "Demo domain zone ID to use."
+}
