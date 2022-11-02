@@ -29,7 +29,7 @@ function App() {
         )
       }
       {qrcode ? (
-        <div className="body grid row-start-2 col-span-3 xl:row-start-2 xl:col-span-4 bg-black-4 place-items-center">
+        <div className="body grid row-start-3 col-span-3 xl:row-start-2 xl:col-span-4 bg-black-4 place-items-center">
             <QRCode /> 
         </div>
       ) : null}
@@ -39,7 +39,7 @@ function App() {
         </div>
       ) : null}
       {showlogo ? (
-        <div className="body grid row-start-3 col-span-3 xl:row-start-3 xl:col-span-4 place-items-center">
+        <div className="body grid row-start-2 col-span-3 xl:row-start-3 xl:col-span-4 place-items-center">
           {logoversion ? (
             <img
               src={toggle}
