@@ -1,5 +1,8 @@
+build/
 node_modules/
+.env
 .terraform
 .terraform*
 *.tfvars
 *.tfstate
+*.tfstate.*
