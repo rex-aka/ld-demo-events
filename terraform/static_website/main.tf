@@ -40,5 +40,5 @@ resource "aws_route53_record" "domain" {
   name    = aws_s3_bucket.demo_bucket.id
   type    = "CNAME"
   ttl     = 5
-  records = [aws_s3_bucket.demo_bucket.bucket_domain_name]
+  records = [aws_s3_bucket_website_configuration.site_config.website_endpoint]
 }
